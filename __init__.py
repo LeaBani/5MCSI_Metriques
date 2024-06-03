@@ -44,7 +44,7 @@ def mycommits():
     results = []
     for list_element in json_content:
         commit_aut_dt_value = list_element.get('commit', {}).get('author', {}).get('date') 
-        results.append({'resultVal': commit_aut_dt_value)
+        results.append({'resultVal': commit_aut_dt_value})
     return jsonify(results=results)
 
 @app.route("/commits/")
