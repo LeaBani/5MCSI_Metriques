@@ -11,11 +11,13 @@ app = Flask(__name__)
 def hello_world():
     return render_template('hello.html')
 
+# ma page de contact customisée
 @app.route("/contact/")
 def MaPremiereAPI():
     # return "<h2>Ma page de contact</h2>"
     return render_template("contact.html")
 
+# la route API pour récupéré les data en JSON pour la météo de la ville de Tawarano
 @app.route('/tawarano/')
 def meteo():
     response = urlopen('https://samples.openweathermap.org/data/2.5/forecast?lat=0&lon=0&appid=xxx')
@@ -32,10 +34,12 @@ def meteo():
 def mongraphique():
     return render_template("graphique.html")
 
+# la page histogramme pour la météo de Tawarano
 @app.route("/histogramme/")
 def monhistogramme():
     return render_template("histogramme.html")
 
+# appel API pour extraire uniquement la data demandée
 @app.route('/mycommits/')
 def mycommits():
     response = urlopen('https://api.github.com/repos/LeaBani/5MCSI_Metriques/commits')
@@ -47,6 +51,14 @@ def mycommits():
         results.append({'resultVal': commit_aut_dt_value})
     return jsonify(results=results)
 
+# ici on extrait les minutes d'une date
+@app.route('/extract-minutes/<date_string>')
+def extract_minutes(date_string):
+        date_object = datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%SZ')
+        minutes = date_object.minute
+        return jsonify({'minutes': minutes})
+
+# il s'agit de la page renvoyée
 @app.route("/commits/")
 def mescommits():
     return render_template("commits.html")
