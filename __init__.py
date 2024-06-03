@@ -36,6 +36,17 @@ def mongraphique():
 def monhistogramme():
     return render_template("histogramme.html")
 
+@app.route('/mycommits/')
+def mycommits():
+    response = urlopen('https://api.github.com/repos/LeaBani/5MCSI_Metriques/commits')
+    raw_content = response.read()
+    json_content = json.loads(raw_content.decode('utf-8'))
+    results = []
+    for list_element in json_content.get('list', []):
+        commit_aut_dt_value = list_element.get('commit', {}).get('author', {}).get('date') 
+        results.append({'resultVal': commit_aut_dt_value)
+    return jsonify(results=results)
+
 @app.route("/commits/")
 def mescommits():
     return render_template("commits.html")
